@@ -1,0 +1,15 @@
+<form method="POST" action="/login">
+    <label>Username:</label>
+    <input type="text" name="username" required>
+
+    <label>Password:</label>
+    <input type="password" name="password" required>
+
+    <!-- Google reCAPTCHA widget -->
+    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+
+    <button type="submit">Login</button>
+</form>
+
+<!-- Load reCAPTCHA JS -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
