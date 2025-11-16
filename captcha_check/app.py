@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-import requests
+import requests, os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
-app.secret_key = "fj39fj93jf93jf93jf93jf93jfjf9!!!"
+
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
+load_dotenv()  # loads .env variables (confidential keys are stored here, and not in the codebase, not exposed publicly)
 
 # Google reCAPTCHA keys
-RECAPTCHA_SITE_KEY = "6LcQEA4sAAAAAGIRz8DJ-TTU1tGq9gmP1IDFFDie"  # Disclaimer: This is a sample key for testing purposes. 
-RECAPTCHA_SECRET_KEY = "6LcQEA4sAAAAAAtMqHkDsw7ILiuyW2GqZaKlGpFK" # It's unssafe to embbed real secret keys in code. 
+RECAPTCHA_SITE_KEY = "6LcQEA4sAAAAAGIRz8DJ-TTU1tGq9gmP1IDFFDie"  # Public key for client-side
+SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY")  # Confidential key for server-side verification
 
 # Dummy user for example
 USER_DB = {
@@ -26,7 +30,7 @@ def login():
 
         # --- Verify reCAPTCHA ---
         payload = {
-            "secret": RECAPTCHA_SECRET_KEY,
+            "secret": SECRET_KEY,
             "response": recaptcha_response
         }
         recaptcha_verify = requests.post(
